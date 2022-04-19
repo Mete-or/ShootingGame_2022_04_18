@@ -105,6 +105,15 @@
     <ClInclude Include="Shield.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Bossprop.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="BossWing.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Debug.cpp">
@@ -186,6 +195,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Shield.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Bossprop.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="BossWing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

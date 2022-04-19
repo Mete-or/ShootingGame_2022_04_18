@@ -28,6 +28,9 @@
 #include "BulletItem.h"
 #include "BombItem.h"
 #include "Shield.h"
+#include "Boss.h"
+#include "Bossprop.h"
+#include "BossWing.h"
 
 #define WIDTH          480
 #define HEIGHT         800
