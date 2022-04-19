@@ -38,6 +38,30 @@ void Boss::Start()
 	AddChildObject(new BossWing(110, 90,	 6));
 	AddChildObject(new BossWing( 62, 85,	 7));
 
+	//보스 건 자식 객체 추가하기
+
+	AddChildObject(new BossGun( 94, 71));
+	AddChildObject(new BossGun(142, 71));
+	AddChildObject(new BossGun(190, 71));
+
+	AddChildObject(new BossGun(238, 71));
+
+	AddChildObject(new BossGun(286, 71));
+	AddChildObject(new BossGun(334, 71));
+	AddChildObject(new BossGun(382, 71));
+
+	//보스 캐논 자식 객체 추가하기
+
+	AddChildObject(new BossCannon(265 + 5, 97 + 10));
+	AddChildObject(new BossCannon(206 - 5, 97 + 10));
+
+	//보스 레이더 자식객체 추가하기
+
+	AddChildObject(new BossRadar(241, 105));
+	AddChildObject(new BossRadar(241, 117));
+
+
+
 
 
 

@@ -31,6 +31,9 @@
 #include "Boss.h"
 #include "Bossprop.h"
 #include "BossWing.h"
+#include "BossGun.h"
+#include "BossCannon.h"
+#include "BossRadar.h"
 
 #define WIDTH          480
 #define HEIGHT         800
