@@ -51,8 +51,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     //보스 테스트하기//
 
-    ObjectManager::Instantiate(new Boss(-6.5, 0));
-
+    ObjectManager::Instantiate(new Boss(-6.5, -200)); //원래 위치는 -200
+    //보스 총알 테스트하기
+    //ObjectManager::Instantiate(new BossBullet(230,300));
 
 
 

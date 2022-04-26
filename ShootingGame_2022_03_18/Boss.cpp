@@ -1,13 +1,33 @@
 #include "ShootingGame.h"
 
-Boss::Boss(float px, float py) : Sprite("", "", true, px, py)
+Boss::Boss(float px, float py) : Sprite("보스", "", true, px, py)
 {
+	this->deadChildCount = 0;
+	this->speed			 = 30;
+	this->state			 = State::moveDown;
+	this->attackpos		 = 50;
+	this->fallsp = 15;
 
+	this->fallTimeOut = 5;
 }
 Boss::~Boss()
 {
 
 }
+//상속에 의해서
+//보스클래스에서 
+//void GameObject::AddChildObject(GameObject* child, int layer)
+//{
+//	child->parent = this; //this는 child 객체 의 부모객체 포인터
+//
+//	childObjects.push_back(child);
+//
+	//자식객체를 부모 좌표 기준으로..이동시키기
+//	child->Translate(px, py);
+//
+//	ObjectManager::Instantiate(child, layer);
+//}
+
 
 void Boss::Start()
 {
@@ -18,16 +38,16 @@ void Boss::Start()
 	//SetSprite("Asset/보스.bmp", 0, 613, 385, 182);
 
 	//프로펠러 자식객체 추가하기
-	AddChildObject(new Bossprop(63, 41));
-	AddChildObject(new Bossprop(111, 41));
-	AddChildObject(new Bossprop(159, 41));
+	AddChildObject(new Bossprop( 63+16, 41+6));
+	AddChildObject(new Bossprop(111+16, 41+6));
+	AddChildObject(new Bossprop(159+16, 41+6));
 
-	AddChildObject(new Bossprop(302, 41));
-	AddChildObject(new Bossprop(350, 41));
-	AddChildObject(new Bossprop(398, 41));
+	AddChildObject(new Bossprop(302+16, 41+6));
+	AddChildObject(new Bossprop(350+16, 41+6));
+	AddChildObject(new Bossprop(398+16, 41+6));
 
 
-
+	//보스 날개 자식객체 추가하기
 	AddChildObject(new BossWing(256, 97,	 0)); //오른쪽 첫번째
 	AddChildObject(new BossWing(302, 94,	 1)); //오른쪽 두번째
 	AddChildObject(new BossWing(350, 90,	 2));
@@ -52,8 +72,8 @@ void Boss::Start()
 
 	//보스 캐논 자식 객체 추가하기
 
-	AddChildObject(new BossCannon(265 + 5, 97 + 10));
-	AddChildObject(new BossCannon(206 - 5, 97 + 10));
+	AddChildObject(new BossCannon(265 + 5, 97 + 10,"오른쪽대포")); // 오른쪽
+	AddChildObject(new BossCannon(206 - 5, 97 + 10,  "왼쪽대포")); // 왼쪽
 
 	//보스 레이더 자식객체 추가하기
 
@@ -68,5 +88,59 @@ void Boss::Start()
 }
 void Boss::Update()
 {
+	if (state == State::moveDown)
+	{
+		Translate(0, speed * Time::deltaTime);
+		if (GetPy() > attackpos)
+		{
+			state = State::attack;
+		}
+	}
+	else if (state == State::attack)
+	{
+		//캐논 자식 객체를 찾아서 발사 시작을 알려줌//
 
+	}
+	else if (state == State::fall)
+	{
+		Translate(0, fallsp * Time::deltaTime);
+
+		//추락 시간 측정
+
+		fallTimeOut = fallTimeOut - Time::deltaTime;
+
+		if (fallTimeOut <= 0)
+		{
+			//보스 제거하기
+			Destroy(this);
+			//스테이지 클리어
+		}
+	}
+	
 }
+void Boss::OnChildDestroy(string name)
+{
+	//제거된 자식 카운트 증가시키기
+	deadChildCount++;
+
+	printf("---제거된 자식 수 %d ---\n", deadChildCount);
+
+	if (deadChildCount == 25) //보스의 모든 자식객체가 제거됌
+	{
+		//보스 폭발
+		float px = GetPx();
+		float py = GetPy();
+
+		Instantiate(new EnemyExp(px, py));
+		
+		//보스가 폭발후 이미지로 변경
+		SetSprite("Asset/보스.bmp", 0, 613, 385, 182,-47,-7);
+
+		//보스 추락 상태로 변경하기//
+		state = State::fall;
+
+		//보스 제거
+		//Destroy(this);
+	}
+}
+

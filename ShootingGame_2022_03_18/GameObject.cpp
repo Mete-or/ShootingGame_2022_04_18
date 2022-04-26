@@ -10,7 +10,8 @@ GameObject::GameObject(string tag, string name, bool active, float px, float py)
 	this->px = px;
 	this->py = py;
 
-	this->isDead = false;  //삭제대상 아님 표시
+	this->isDead = false;   //삭제대상 아님 표시
+	this->parent = nullptr; //객체 생성자에서는 부모객체가 없음
 }
 
 GameObject::~GameObject()
@@ -182,11 +183,29 @@ GameObject * GameObject::Instantiate(GameObject* obj, int layer)
 
 void GameObject::Destroy(GameObject* obj)
 {
+	//자식객체가 제거될때 부모객체의 목록에서 제거함//
+	//obj가 자식객체 obj의 부모 obj->parent
+	if (obj->parent != nullptr)
+	{
+		vector<GameObject*> &child = obj->parent->childObjects;
+
+		for (int i = 0; i < child.size(); i++)
+		{
+			if (child[i] == obj)
+			{
+				child.erase(child.begin() + i);
+				i--;
+			}
+		}
+	}
+	
 	ObjectManager::Destroy(obj);
 }
 
 void GameObject::AddChildObject(GameObject* child, int layer)
 {
+	child->parent = this; //this는 child 객체 의 부모객체 포인터
+
 	childObjects.push_back(child);
 
 	//자식객체를 부모 좌표 기준으로..이동시키기

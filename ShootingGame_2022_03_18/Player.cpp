@@ -241,7 +241,7 @@ void Player::ShieldObject()
 		if (shield != nullptr)
 		{
 			shield->SetActive(false); //방패 비활성화
-			printf("방패 자식객체 찾기 성공");
+			//printf("방패 자식객체 찾기 성공");
 
 		}
 		else
@@ -303,6 +303,10 @@ void Player::OnTriggerStay2D(GameObject * other)
 
 			printf("폭탄 갯수 증가 %d\n", bombCount);
 
+		}
+		else if (tag == "보스날개")
+		{
+			
 		}
 	}
 }

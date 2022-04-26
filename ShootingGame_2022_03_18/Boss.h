@@ -4,7 +4,18 @@
 
 class Boss : public Sprite
 {
+	enum State { moveDown = 0, attack = 1 , fall = 2};
+
 private:
+	
+	float fallsp;
+	float speed;
+	int deadChildCount;
+	float attackpos;
+	float fallTimeOut;
+	
+
+	State state;
 
 public:
 	Boss(float px, float py);
@@ -12,5 +23,8 @@ public:
 
 	void Start();
 	void Update();
+
+	//보스 자식이 폭발되었음을 알리는 이벤트 함수
+	void OnChildDestroy(string name);
 };
 

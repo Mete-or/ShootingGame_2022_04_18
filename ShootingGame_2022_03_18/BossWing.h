@@ -1,6 +1,7 @@
 #pragma once
-#include "Sprite.h"
-class BossWing  : public Sprite
+#include "BossChildSprite.h"
+
+class BossWing  : public BossChildSprite
 {
 private:
 	
@@ -16,13 +17,17 @@ private:
 
 	int idx;
 
+	//int hp;
+
 
 public:
 	 BossWing(float px, float py,int idx);
 	~BossWing();
 
 	void Start();
-	void Update();
+	//void Update();
+	//void Explosion();
+	//void OnTriggerStay2D(GameObject* other);
 };
 
 

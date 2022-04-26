@@ -1,6 +1,6 @@
 #pragma once
-#include "Sprite.h"
-class BossGun : public Sprite
+#include "BossChildSprite.h"
+class BossGun : public BossChildSprite
 {
 private:
 	
@@ -11,6 +11,6 @@ public:
 	~BossGun();
 
 	void Start();
-	void Update();
+
 };
 
