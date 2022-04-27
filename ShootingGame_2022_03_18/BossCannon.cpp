@@ -8,6 +8,7 @@ BossCannon::BossCannon(float px, float py,string name) : BossChildSprite("보스자
 	this->fireTimer = 0;
 	this->fireDelay = 2;
 
+	this->doFire = false;
 
 }
 BossCannon::~BossCannon()
@@ -21,6 +22,8 @@ void BossCannon::Start()
 	AddBoxCollider2D(0, 0, 21, 22);
 
 	SetDamage(20); //피해량 저장
+
+	this->fireDelay = Random::Range(2, 5);
 }
 
 void BossCannon::Update()
@@ -36,9 +39,11 @@ void BossCannon::Update()
 
 		for (int i = 0; i < 30; i++)
 		{
-			bullet = (BossBullet*)Instantiate(new BossBullet(px + 2, py + 15));
-			bullet->SetAngle(i*12);
-
+			if (doFire == true)
+			{
+				bullet = (BossBullet*)Instantiate(new BossBullet(px + 2, py + 15));
+				bullet->SetAngle(i * 12);
+			}
 
 		}
 
@@ -46,6 +51,7 @@ void BossCannon::Update()
 		fireTimer = 0;
 	}
 }
+
 /***********************************************************
 void BossCannon::Explosion()
 {

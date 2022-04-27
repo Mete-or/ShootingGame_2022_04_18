@@ -4,13 +4,15 @@ class BossGun : public BossChildSprite
 {
 private:
 	
-
-
+	
 public:
-	BossGun(float px, float py);
+	BossGun(float px, float py, string name);
 	~BossGun();
 
 	void Start();
+	void Update();
+	void OnStartFire();
+	void OnFire();
 
 };
 

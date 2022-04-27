@@ -9,6 +9,11 @@ Boss::Boss(float px, float py) : Sprite("보스", "", true, px, py)
 	this->fallsp = 15;
 
 	this->fallTimeOut = 5;
+
+	this->gunFireTimer = 0;
+	this->gunFireDelay = 1;
+
+	this->gunPatternIdx = 0;
 }
 Boss::~Boss()
 {
@@ -60,15 +65,15 @@ void Boss::Start()
 
 	//보스 건 자식 객체 추가하기
 
-	AddChildObject(new BossGun( 94, 71));
-	AddChildObject(new BossGun(142, 71));
-	AddChildObject(new BossGun(190, 71));
+	AddChildObject(new BossGun( 94, 71,"왼쪽첫번째"));
+	AddChildObject(new BossGun(142, 71,"왼쪽두번째"));
+	AddChildObject(new BossGun(190, 71,"왼쪽세번째"));
 
-	AddChildObject(new BossGun(238, 71));
+	AddChildObject(new BossGun(238, 71,"가운데"));
 
-	AddChildObject(new BossGun(286, 71));
-	AddChildObject(new BossGun(334, 71));
-	AddChildObject(new BossGun(382, 71));
+	AddChildObject(new BossGun(286, 71,"오른쪽첫번째"));
+	AddChildObject(new BossGun(334, 71,"오른쪽두번째"));
+	AddChildObject(new BossGun(382, 71,"오른쪽세번째"));
 
 	//보스 캐논 자식 객체 추가하기
 
@@ -93,13 +98,76 @@ void Boss::Update()
 		Translate(0, speed * Time::deltaTime);
 		if (GetPy() > attackpos)
 		{
+			
 			state = State::attack;
 		}
 	}
 	else if (state == State::attack)
 	{
+		/**********************************************************
 		//캐논 자식 객체를 찾아서 발사 시작을 알려줌//
+		BossCannon* RCannon = (BossCannon *)Find("오른쪽대포");
 
+		if (RCannon != nullptr)
+		{
+			RCannon->OnStartFire();
+		}
+
+		BossCannon* LCannon = (BossCannon*)Find("왼쪽대포");
+
+		if (LCannon != nullptr)
+		{
+			LCannon->OnStartFire();
+		}
+		***********************************************************/
+
+		string cannons[2] = { "오른쪽대포", "왼쪽대포" };
+
+		for (int i = 0; i < 2; i++)
+		{
+			BossCannon * c = (BossCannon *)Find(cannons[i]);
+			if (c != nullptr)
+			{
+				c->OnStartFire();
+			}
+		}
+
+		gunFireTimer += Time::deltaTime;
+
+		if (gunFireTimer >= gunFireDelay)
+		{
+
+			string guns[7] = { "왼쪽첫번째","왼쪽두번째","왼쪽세번째",
+											"가운데"
+							,"오른쪽첫번째","오른쪽두번째","오른쪽세번째" };
+
+
+			for (int i = 0; i < 7; i++)
+			{
+				if (gunPatttern[gunPatternIdx][i] == true)
+				{
+
+					BossGun* g = (BossGun*)Find(guns[i]);
+
+					if (g != nullptr)
+					{
+
+						g->OnFire();
+					}
+				}
+
+			}
+
+			gunFireTimer = 0;
+			gunPatternIdx++;
+
+			if (gunPatternIdx >= 20)
+			{
+				gunPatternIdx = 0;
+			}
+
+		}
+		
 	}
 	else if (state == State::fall)
 	{
@@ -142,5 +210,9 @@ void Boss::OnChildDestroy(string name)
 		//보스 제거
 		//Destroy(this);
 	}
+}
+void BossCannon::OnStartFire()
+{
+	doFire = true;
 }
 
